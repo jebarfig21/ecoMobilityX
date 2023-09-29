@@ -38,6 +38,37 @@ async function createUserController(req, res) {
   }
 }
 
+async function deleteUserController(req,res){
+    try {
+        const { email } = req.body; // Obtén los datos del cuerpo de la solicitud
+        
+        const userId = await UserModel.removeUser(email);
+    
+        // Puedes realizar acciones adicionales si es necesario
+        res.status(201).json({ message: 'Usuario creado con éxito', userId });
+      } catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ error: 'Error al crear usuario' });
+      }
+}
+
+async function updateUserController(req,res){
+    try {
+        const { user } = req.body; // Obtén los datos del cuerpo de la solicitud
+        
+        const userId = await UserModel.updateUser(user);
+    
+        // Puedes realizar acciones adicionales si es necesario
+        res.status(201).json({ message: 'Usuario creado con éxito', userId });
+      } catch (error) {
+        console.error('Error al crear usuario:', error);
+        res.status(500).json({ error: 'Error al crear usuario' });
+      }
+}
+
+
 module.exports = {
   createUserController,
+  deleteUserController,
+  updateUserController
 };

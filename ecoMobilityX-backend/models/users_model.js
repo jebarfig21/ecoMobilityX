@@ -1,6 +1,6 @@
 
 const { db } = require('./firebase');
-const { getAuth, createUserWithEmailAndPassword } = require('firebase-admin/auth');
+const { getAuth, deleteUser } = require('firebase-admin/auth');
 
 // Función para crear un nuevo usuario en Firestore
 async function createUser(user) {
@@ -34,6 +34,40 @@ async function createUser(user) {
   return res.id; // Devuelve el ID único del usuario recién creado
 }
 
+async function removeUser(aux){
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const email = user.email;
+
+  deleteUser(user).then(() => {
+  const cityRef = db.collection('users').doc(mail);
+  const res = cityRef.update({disable: true});
+
+}).catch((error) => {
+  // An error ocurred
+  // ...
+  console.log("error en removeUser Model")
+});
+}
+
+async function updateUser(data){
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const email = user.email;
+
+  deleteUser(user).then(() => {
+  const cityRef = db.collection('userd').doc(mail);
+  const res = cityRef.update(data);
+
+}).catch((error) => {
+  // An error ocurred
+  // ...
+  console.log("error en removeUser Model")
+});
+}
+
 module.exports = {
-  createUser
+  createUser,
+  removeUser,
+  updateUser
 };
