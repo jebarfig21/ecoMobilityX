@@ -1,22 +1,9 @@
 
-const { db } = require('./firebase');
-const { getAuth, deleteUser } = require('firebase-admin/auth');
 
 // Función para crear un nuevo usuario en Firestore
 async function createUser(user) {
     /** Se almacena le usuario en el autenticador de FireBase*/
     console.log(user)
-    getAuth().createUser({
-      email: user.email,
-      password: user.password
-      })
-    .then((userRecord) => {
-      // See the UserRecord reference doc for the contents of userRecord.
-      console.log('Successfully created new user:', userRecord.uid);
-    })
-    .catch((error) => {
-      console.log('Error creating new user:', error);
-    });
     /** Se almacena la información del usuario en FireStore en la tabla user*/  
     const data = {
       name: user.name,
@@ -30,44 +17,58 @@ async function createUser(user) {
     };
     
     // Add a new document in collection "cities" with ID 'LA'
-    const res = await db.collection('users').doc(user.email).set(data);
-  return res.id; // Devuelve el ID único del usuario recién creado
+//    const res = await db.collection('users').doc(user.email).set(data);
+  return true; // Devuelve el ID único del usuario recién creado
 }
 
 async function removeUser(aux){
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const email = user.email;
-
-  deleteUser(user).then(() => {
-  const cityRef = db.collection('users').doc(mail);
-  const res = cityRef.update({disable: true});
-
-}).catch((error) => {
-  // An error ocurred
-  // ...
-  console.log("error en removeUser Model")
-});
+  const email = aux.email;
 }
 
 async function updateUser(data){
-  const auth = getAuth();
-  const user = auth.currentUser;
-  const email = user.email;
+  return true
+ }
 
-  deleteUser(user).then(() => {
-  const cityRef = db.collection('userd').doc(mail);
-  const res = cityRef.update(data);
 
-}).catch((error) => {
-  // An error ocurred
-  // ...
-  console.log("error en removeUser Model")
-});
-}
+const mongoose = require('mongoose')
+
+const UserSchema = mongoose.Schema({
+
+    name:{
+        type: String,
+        required: true
+    },
+    last_name:{
+      type: String,
+      required: true
+    },
+    email: {
+        type: String
+    },
+    emailVerified: {
+      type: Boolean
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    phoneNumber: {
+      type: Number
+    },
+    photoURL: {
+      type: String
+    },
+}, {
+    timestamps: true
+})
+
+
+const User = mongoose.model("Usuario", UserSchema)
 
 module.exports = {
   createUser,
   removeUser,
-  updateUser
+  updateUser,
+  User
 };
+
