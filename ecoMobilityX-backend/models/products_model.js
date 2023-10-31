@@ -1,17 +1,49 @@
 
-// Función para crear un nuevo usuario en Firestore
-async function getProduct(id) {
-    //const res = await db.collection('').doc(user.email).set(data);
-  return null; // Devuelve el ID único del usuario recién creado
-}
+const mongoose = require('mongoose');
 
+const ProductSchema = mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  nombre: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  descripcion: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  precio: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  categoria: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  cantidadDisponible: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  imagen: {
+    type: String, // Puedes almacenar la URL de la imagen del producto
+    required: true
+  },
+  fechaCreacion: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-async function getAllProduct(id) {
-  return null; // Devuelve el ID único del usuario recién creado
-}
-
+const Producto = mongoose.model('Producto', ProductSchema);
 
 module.exports = {
-  getProduct,
-  getAllProduct,
+  Producto
 };

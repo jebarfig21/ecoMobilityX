@@ -1,0 +1,30 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+  }
+  
+  .navbar-logo img {
+    max-width: 100px; /* Establece el tamaño máximo del logo */
+  }
+  
+  .navbar-buttons {
+    display: flex;
+  }
+  
+  .navbar-button {
+    background-color: #555;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .navbar-button:hover {
+    background-color: #333;
+  }
+  

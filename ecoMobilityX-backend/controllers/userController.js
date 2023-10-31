@@ -3,22 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const UserModel = require('../models/users_model');
 
-exports.createOneRequest = (req, res) => {
-    res.status(201).json({message: "New resource created!"});
-}
-
-exports.readOneRequest = (req, res) => {
-    res.status(302).json({message: "Resource found!"});
-}
-
-exports.updateOneRequest = (req, res) => {
-    res.status(301).json({message: "Resource updated!"});
-}
-
-exports.deleteOneRequest = (req, res) => {
-    res.status(202).json({message: "Resource deleted!"});
-}
-
 // Controlador para crear un nuevo usuario
 async function createUserController(req, res) {
     try {
@@ -129,7 +113,10 @@ async function loginUserController(req,res){
 async function verifyUserController(req,res){
     try {
         // CONFIRMAMOS QUE EL USUARIO EXISTA EN BASE DE DATOS Y RETORNAMOS SUS DATOS, EXCLUYENDO EL PASSWORD
+        
         const usuario = await UserModel.User.findById(req.user.id).select('-password')
+        console.log(req.user)
+        
         res.json({usuario})
 
     } catch (error) {
@@ -142,16 +129,18 @@ async function verifyUserController(req,res){
     }
 async function deleteUserController(req,res){
     try {
-        const { email } = req.body; // Obtén los datos del cuerpo de la solicitud
-        
-        const userId = await UserModel.removeUser(email);
-    
-        // Puedes realizar acciones adicionales si es necesario
-        res.status(201).json({ message: 'Usuario creado con éxito', userId });
-      } catch (error) {
-        console.error('Error al crear usuario:', error);
-        res.status(500).json({ error: 'Error al crear usuario' });
-      }
+        // CONFIRMAMOS QUE EL USUARIO EXISTA EN BASE DE DATOS Y RETORNAMOS SUS DATOS, EXCLUYENDO EL PASSWORD
+        console.log(req.user)
+        const usuario = await UserModel.User.findByIdAndRemove(req.user.id).select('-password')
+        res.json({usuario})
+
+    } catch (error) {
+        // EN CASO DE HERROR DEVOLVEMOS UN MENSAJE CON EL ERROR
+        res.status(500).json({
+            msg: "Hubo un error",
+            error
+        })
+    }
 }
 
 async function updateUserController(req,res){

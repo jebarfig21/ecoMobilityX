@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000; // Puerto de tu elección
+const productRoutes = require('./routes/productRoutes')
 const userRoutes = require('./routes/userRoutes');
-const productRoutes = require('./routes/productRoutes');
+const carritoRoutes = require('./routes/carritoRoutes');
+const pedidosRoutes = require('./routes/pedidosRoutes');
 
 const cors = require('cors')
 const connectDB = require('./config/db') //PENDIENTE
@@ -22,6 +24,8 @@ app.use(express.json());
 
 app.use('/users',userRoutes);
 app.use('/products',productRoutes);
+app.use('/carrito',carritoRoutes);
+app.use('/pedidos',pedidosRoutes);
 
 
 // Iniciar el servidor
