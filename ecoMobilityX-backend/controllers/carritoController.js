@@ -2,8 +2,7 @@ const CarritoModel = require('../models/carrito_model');
 const ProductsModel = require('../models/products_model');
 
 async function carritoCliente(req, res){
-    const clienteId = req.body.clienteId; // Obtén el ID del cliente desde la solicitud POST
-  
+  const clienteId = req.user.id // Obtén el ID del cliente desde el middleware
     try {
       const carrito = await CarritoModel.Carrito.findOne({ cliente: clienteId, status: 'activo' }).populate('productos.producto');
       if (carrito) {
@@ -18,13 +17,19 @@ async function carritoCliente(req, res){
   };
 
   async function agregarProducto(req, res) {
-    const clienteId = req.body.clienteId; // Obtén el ID del cliente desde la solicitud POST
-    const productoId = req.body.productoId; // Obtén el ID del producto desde la solicitud POST
-  
+    
+    const clienteId = req.body.idCliente // Obtén el ID del cliente desde la solicitud POST
+    const productoId = req.body.idProducto; // Obtén el ID del producto desde la solicitud POST
+    
+    console.log(req.body)
+    
     try {
+      
       // Verifica si el producto existe
       const producto = await ProductsModel.Producto.findById(productoId);
+
       if (!producto) {
+        console.log("No encuntroa el producto")
         return res.status(404).json({ error: 'Producto no encontrado' });
       }
   
@@ -57,8 +62,9 @@ async function carritoCliente(req, res){
   
       res.status(200).json(carrito);
     } catch (error) {
-      console.error('Error al agregar el producto al carrito:', error);
-      res.status(500).json({ error: 'Error interno del servidor' });
+      console.log("andaFallandoAgregarCarrito")
+      //console.error('Error al agregar el producto al carrito:', error);
+      //res.status(500).json({ error: 'Error interno del servidor' });
     }
   }
 

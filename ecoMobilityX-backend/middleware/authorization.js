@@ -18,6 +18,7 @@ module.exports = (req, res, next) => {
 
         // SI TODO ESTÁ CORRECTO, A LA PETICIÓN LE ANCLAMOS UNA PROPIEDAD ADICIONAL CON EL TOKEN DESCIFRADO
         req.user = openToken.user
+        
 
         // NEXT, AL INVOCARSE, PERMITE AVANZAR A LA SIGUIENTE FUNCIÓN
         next()

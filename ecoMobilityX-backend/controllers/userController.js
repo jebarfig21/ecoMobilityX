@@ -7,8 +7,13 @@ const UserModel = require('../models/users_model');
 async function createUserController(req, res) {
     try {
         const { name, last_name, password, email,phone } = req.body; // Obtén los datos del cuerpo de la solicitud    
-        console.log(req.body)
-    
+        //console.log(req.body)
+        const existingUser = await UserModel.User.findOne({ email: email });
+
+        // Si se encuentra un usuario con el mismo correo electrónico, enviar una respuesta de error
+        if (existingUser) {
+            return res.status(400).json({ message: 'El correo electrónico ya está en uso.' });
+        }
       // GENERAMOS FRAGMENTO ALEATORIO PARA USARSE CON EL PASSWORD
       const salt = await bcrypt.genSalt(10)
       const hashedPassword = await bcrypt.hash(password, salt)
@@ -117,7 +122,7 @@ async function verifyUserController(req,res){
         const usuario = await UserModel.User.findById(req.user.id).select('-password')
         console.log(req.user)
         
-        res.json({usuario})
+        res.status(200).json({usuario})
 
     } catch (error) {
         // EN CASO DE HERROR DEVOLVEMOS UN MENSAJE CON EL ERROR
