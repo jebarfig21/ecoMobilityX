@@ -6,6 +6,7 @@ async function carritoCliente(req, res){
     try {
       const carrito = await CarritoModel.Carrito.findOne({ cliente: clienteId, status: 'activo' }).populate('productos.producto');
       if (carrito) {
+        console.log(carrito)
         res.status(200).json(carrito);
       } else {
         res.status(404).json({ error: 'Carrito no encontrado para el cliente proporcionado' });

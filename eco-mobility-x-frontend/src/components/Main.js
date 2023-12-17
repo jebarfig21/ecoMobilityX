@@ -81,7 +81,7 @@ function Main() {
     {vistaActual === 'registrate' &&  <RegistroUsuario/>}
     {vistaActual === 'inicioSesion' && <InicioSesion setToken={setToken}/>}
     {vistaActual === 'carrito' && <Carrito isLoggedIn={isLoggedIn} axiosInstance={axiosInstance}/>}
-    {vistaActual === 'pedidos' && <InicioSesion axiosInstance={axiosInstance}/>}
+    {vistaActual === 'pedidos' && <Carrito axiosInstance={axiosInstance}/>}
     <br/>
     <Footer/>
     </div>
